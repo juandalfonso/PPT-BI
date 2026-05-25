@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Medired</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d1d5db;
+      --accent: #0f766e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.06);
+      overflow: hidden;
+    }
+    .header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .frame-wrap {
+      padding: 0;
+      background: #eef2f7;
+    }
+    iframe {
+      display: block;
+      width: 100%;
+      height: 85vh;
+      min-height: 700px;
+      border: 0;
+      background: white;
+    }
+    .footer {
+      padding: 14px 24px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+    }
+    @media (max-width: 768px) {
+      .wrap { padding: 12px; }
+      h1 { font-size: 22px; }
+      iframe { height: 78vh; min-height: 540px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="header">
+        <h1>Dashboard Medired</h1>
+        <p>Visualización embebida del dashboard publicado en Power BI para consulta desde una página independiente.</p>
+        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiNmViMzM5OGItZTU2ZS00OWQyLWIzMDQtZWM1ODQ4YjdhMGYzIiwidCI6ImRhZjc5OTBlLThhM2YtNDA5Yy05Yjc2LTJhNTQ3NTA5ODAwMCIsImMiOjR9" target="_blank" rel="noopener noreferrer">Abrir en Power BI</a>
+      </div>
+      <div class="frame-wrap">
+        <iframe
+          title="Dashboard_mediredV1"
+          src="https://app.powerbi.com/view?r=eyJrIjoiNmViMzM5OGItZTU2ZS00OWQyLWIzMDQtZWM1ODQ4YjdhMGYzIiwidCI6ImRhZjc5OTBlLThhM2YtNDA5Yy05Yjc2LTJhNTQ3NTA5ODAwMCIsImMiOjR9"
+          allowfullscreen="true">
+        </iframe>
+      </div>
+      <div class="footer">
+        Si el dashboard no carga, verifica que el enlace siga siendo público y que Power BI permita su visualización embebida.
+      </div>
+    </div>
+  </div>
+</body>
+</html>
