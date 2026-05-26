@@ -1,103 +1,1008 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Medired</title>
-  <style>
-    :root {
-      --bg: #f5f7fb;
-      --surface: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --border: #d1d5db;
-      --accent: #0f766e;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-    .wrap {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      box-shadow: 0 8px 24px rgba(0,0,0,.06);
-      overflow: hidden;
-    }
-    .header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border);
-    }
-    h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-    }
-    p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-    .frame-wrap {
-      padding: 0;
-      background: #eef2f7;
-    }
-    iframe {
-      display: block;
-      width: 100%;
-      height: 85vh;
-      min-height: 700px;
-      border: 0;
-      background: white;
-    }
-    .footer {
-      padding: 14px 24px;
-      border-top: 1px solid var(--border);
-      font-size: 14px;
-      color: var(--muted);
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 10px 14px;
-      border-radius: 8px;
-      background: var(--accent);
-      color: white;
-      text-decoration: none;
-    }
-    @media (max-width: 768px) {
-      .wrap { padding: 12px; }
-      h1 { font-size: 22px; }
-      iframe { height: 78vh; min-height: 540px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediRed — Bodega de Datos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+<style>
+/* Art direction: Medical BI project → precise, clinical, trustworthy
+   Palette: cool blue-teal accent on warm-neutral surfaces
+   Typography: DM Serif Display (headings) + DM Sans (body)
+   Density: balanced */
+
+:root,[data-theme="light"]{
+  --color-bg:#f5f6f8;--color-surface:#ffffff;--color-surface-2:#f9fafb;
+  --color-surface-offset:#eef0f3;--color-surface-offset-2:#e5e8ed;
+  --color-surface-dynamic:#dde1e8;--color-divider:#d1d5dd;--color-border:#c8cdd8;
+  --color-text:#1a1e2a;--color-text-muted:#5a6070;--color-text-faint:#9ba3b4;
+  --color-text-inverse:#f5f6f8;
+  --color-primary:#1a5fa8;--color-primary-hover:#154d8a;--color-primary-active:#0f3a6a;
+  --color-primary-highlight:#d0e2f5;
+  --color-accent:#f07820;--color-accent-hover:#d4660e;--color-accent-light:#fef0e3;
+  --color-success:#2d7a3a;--color-success-highlight:#d4edda;
+  --color-warning:#b06000;--color-warning-highlight:#fdecd0;
+  --color-error:#a02030;--color-error-highlight:#f8d7da;
+  --radius-sm:0.375rem;--radius-md:0.5rem;--radius-lg:0.75rem;--radius-xl:1rem;--radius-full:9999px;
+  --shadow-sm:0 1px 3px oklch(0.2 0.02 240/0.07);
+  --shadow-md:0 4px 12px oklch(0.2 0.02 240/0.09);
+  --shadow-lg:0 12px 32px oklch(0.2 0.02 240/0.13);
+  --transition-interactive:180ms cubic-bezier(0.16,1,0.3,1);
+  --font-display:'DM Serif Display',Georgia,serif;
+  --font-body:'DM Sans','Helvetica Neue',sans-serif;
+  --text-xs:clamp(0.75rem,0.7rem + 0.25vw,0.875rem);
+  --text-sm:clamp(0.875rem,0.8rem + 0.35vw,1rem);
+  --text-base:clamp(1rem,0.95rem + 0.25vw,1.125rem);
+  --text-lg:clamp(1.125rem,1rem + 0.75vw,1.5rem);
+  --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+  --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
+  --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+  --space-12:3rem;--space-16:4rem;--space-20:5rem;
+}
+[data-theme="dark"]{
+  --color-bg:#111418;--color-surface:#181c22;--color-surface-2:#1e232b;
+  --color-surface-offset:#1c2028;--color-surface-offset-2:#222830;
+  --color-surface-dynamic:#2a303a;--color-divider:#282e38;--color-border:#323a47;
+  --color-text:#d8dce6;--color-text-muted:#7a8394;--color-text-faint:#4a5160;
+  --color-text-inverse:#1a1e2a;
+  --color-primary:#5a9fd4;--color-primary-hover:#3a85c0;--color-primary-active:#2268a0;
+  --color-primary-highlight:#1a2d42;
+  --color-accent:#f09040;--color-accent-hover:#e07020;--color-accent-light:#2a1e10;
+  --color-success:#5ab86a;--color-success-highlight:#1a2e1e;
+  --color-warning:#d4900a;--color-warning-highlight:#2a1e08;
+  --color-error:#d05060;--color-error-highlight:#2a1018;
+  --shadow-sm:0 1px 3px oklch(0 0 0/0.25);
+  --shadow-md:0 4px 12px oklch(0 0 0/0.35);
+  --shadow-lg:0 12px 32px oklch(0 0 0/0.45);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){
+  --color-bg:#111418;--color-surface:#181c22;--color-surface-2:#1e232b;
+  --color-surface-offset:#1c2028;--color-surface-offset-2:#222830;
+  --color-surface-dynamic:#2a303a;--color-divider:#282e38;--color-border:#323a47;
+  --color-text:#d8dce6;--color-text-muted:#7a8394;--color-text-faint:#4a5160;
+  --color-text-inverse:#1a1e2a;
+  --color-primary:#5a9fd4;--color-primary-hover:#3a85c0;--color-primary-active:#2268a0;
+  --color-primary-highlight:#1a2d42;
+  --color-accent:#f09040;--color-accent-hover:#e07020;--color-accent-light:#2a1e10;
+}}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;scroll-padding-top:var(--space-20)}
+body{min-height:100dvh;line-height:1.65;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg)}
+img{display:block;max-width:100%;height:auto}
+h1,h2,h3,h4{text-wrap:balance;line-height:1.2;font-family:var(--font-display)}
+p,li{text-wrap:pretty}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+table{border-collapse:collapse;width:100%}
+a,button,[role="button"]{transition:color var(--transition-interactive),background var(--transition-interactive),border-color var(--transition-interactive),box-shadow var(--transition-interactive)}
+:focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
+::selection{background:oklch(from var(--color-primary) l c h/0.2);color:var(--color-text)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ── HEADER ── */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:var(--color-surface);
+  border-bottom:1px solid var(--color-border);
+  box-shadow:var(--shadow-sm);
+}
+.header-inner{
+  max-width:1200px;margin-inline:auto;padding:var(--space-3) var(--space-6);
+  display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);
+}
+.logo-link{display:flex;align-items:center;text-decoration:none}
+.logo-link img{height:44px;width:auto;object-fit:contain}
+.header-right{display:flex;align-items:center;gap:var(--space-3)}
+
+/* Theme toggle */
+.theme-toggle{
+  width:36px;height:36px;border-radius:var(--radius-full);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--color-text-muted);
+  border:1px solid var(--color-border);
+  background:var(--color-surface-offset);
+}
+.theme-toggle:hover{color:var(--color-text);background:var(--color-surface-dynamic)}
+
+/* ── HERO ── */
+.hero{
+  background:var(--color-surface);
+  border-bottom:1px solid var(--color-divider);
+  padding:clamp(var(--space-10),6vw,var(--space-20)) var(--space-6);
+  text-align:center;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:var(--space-2);
+  background:var(--color-primary-highlight);color:var(--color-primary);
+  font-size:var(--text-xs);font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);
+  margin-bottom:var(--space-4);
+}
+.hero h1{
+  font-size:var(--text-2xl);color:var(--color-text);
+  max-width:18ch;margin-inline:auto;margin-bottom:var(--space-4);
+}
+.hero h1 span{color:var(--color-accent)}
+.hero p{
+  font-size:var(--text-base);color:var(--color-text-muted);
+  max-width:60ch;margin-inline:auto;margin-bottom:var(--space-6);
+}
+.hero-meta{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:var(--space-3);
+}
+.meta-chip{
+  display:inline-flex;align-items:center;gap:var(--space-2);
+  background:var(--color-surface-offset);border:1px solid var(--color-border);
+  border-radius:var(--radius-full);padding:var(--space-1) var(--space-4);
+  font-size:var(--text-sm);color:var(--color-text-muted);
+}
+.meta-chip svg{color:var(--color-primary)}
+
+/* ── TAB NAV ── */
+.tab-nav-wrapper{
+  position:sticky;top:61px;z-index:90;
+  background:var(--color-surface);
+  border-bottom:1px solid var(--color-border);
+  box-shadow:var(--shadow-sm);
+}
+.tab-nav{
+  max-width:1200px;margin-inline:auto;
+  display:flex;overflow-x:auto;scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{
+  flex-shrink:0;padding:var(--space-4) var(--space-5);
+  font-size:var(--text-sm);font-weight:500;
+  color:var(--color-text-muted);border-bottom:2px solid transparent;
+  white-space:nowrap;
+  background:transparent;
+}
+.tab-btn:hover{color:var(--color-text);background:var(--color-surface-offset)}
+.tab-btn.active{color:var(--color-primary);border-bottom-color:var(--color-primary);font-weight:600}
+
+/* ── CONTENT AREA ── */
+.tab-content{display:none;animation:fadeUp .22s ease both}
+.tab-content.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.content-wrap{max-width:1200px;margin-inline:auto;padding:var(--space-10) var(--space-6)}
+
+/* ── SECTION TITLES ── */
+.section-title{
+  font-size:var(--text-xl);color:var(--color-text);
+  margin-bottom:var(--space-2);
+}
+.section-subtitle{
+  font-size:var(--text-base);color:var(--color-text-muted);
+  max-width:70ch;margin-bottom:var(--space-8);
+}
+
+/* ── CARDS ── */
+.card{
+  background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h/0.1);
+  border-radius:var(--radius-lg);padding:var(--space-6);
+  box-shadow:var(--shadow-sm);
+}
+.card:hover{box-shadow:var(--shadow-md)}
+.card-grid{display:grid;gap:var(--space-4);grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}
+.card-grid-2{display:grid;gap:var(--space-6);grid-template-columns:repeat(auto-fill,minmax(min(440px,100%),1fr))}
+.card h3{font-size:var(--text-lg);margin-bottom:var(--space-2);color:var(--color-text)}
+.card p{font-size:var(--text-base);color:var(--color-text-muted);max-width:60ch}
+.tag{
+  display:inline-block;font-size:var(--text-xs);font-weight:600;
+  letter-spacing:.05em;text-transform:uppercase;
+  padding:2px var(--space-2);border-radius:var(--radius-sm);
+  margin-bottom:var(--space-2);
+}
+.tag-blue{background:var(--color-primary-highlight);color:var(--color-primary)}
+.tag-orange{background:var(--color-accent-light);color:var(--color-accent)}
+.tag-green{background:var(--color-success-highlight);color:var(--color-success)}
+.tag-yellow{background:var(--color-warning-highlight);color:var(--color-warning)}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;gap:var(--space-4);grid-template-columns:repeat(auto-fill,minmax(min(180px,100%),1fr));margin-bottom:var(--space-8)}
+.kpi{
+  background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h/0.1);
+  border-radius:var(--radius-lg);padding:var(--space-5);
+  box-shadow:var(--shadow-sm);text-align:center;
+}
+.kpi-value{font-size:var(--text-xl);font-weight:700;font-family:var(--font-display);color:var(--color-primary);line-height:1}
+.kpi-label{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1);text-transform:uppercase;letter-spacing:.05em}
+
+/* ── TABLES ── */
+.table-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--color-border)}
+table th{
+  background:var(--color-surface-offset);color:var(--color-text-muted);
+  font-size:var(--text-xs);font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+  padding:var(--space-3) var(--space-4);text-align:left;
+}
+table td{
+  padding:var(--space-3) var(--space-4);font-size:var(--text-sm);
+  border-top:1px solid var(--color-divider);color:var(--color-text);
+  font-variant-numeric:tabular-nums;
+}
+table tr:hover td{background:var(--color-surface-offset)}
+.mono{font-family:'Courier New',monospace;font-size:var(--text-xs);background:var(--color-surface-offset);padding:2px 6px;border-radius:var(--radius-sm)}
+.check{color:var(--color-success);font-weight:700}
+.dash{color:var(--color-text-faint)}
+
+/* ── CODE BLOCKS ── */
+.code-block{
+  background:var(--color-surface-offset-2);border:1px solid var(--color-border);
+  border-radius:var(--radius-lg);overflow:hidden;margin-bottom:var(--space-6);
+}
+.code-header{
+  background:var(--color-surface-dynamic);padding:var(--space-2) var(--space-4);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:var(--text-xs);color:var(--color-text-muted);font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+}
+.code-header .dots{display:flex;gap:6px}
+.code-header .dot{width:12px;height:12px;border-radius:50%}
+.dot-r{background:#ff5f57}.dot-y{background:#febc2e}.dot-g{background:#28c840}
+.code-scroll{overflow-x:auto;padding:var(--space-5)}
+pre{font-family:'Courier New',monospace;font-size:.82rem;line-height:1.7;color:var(--color-text);white-space:pre}
+.kw{color:var(--color-primary);font-weight:600}
+.fn{color:var(--color-accent)}
+.cm{color:var(--color-text-faint);font-style:italic}
+.st{color:var(--color-success)}
+
+/* ── ETL PIPELINE ── */
+.accordion{margin-bottom:var(--space-3)}
+.accordion-header{
+  width:100%;text-align:left;padding:var(--space-4) var(--space-5);
+  background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-lg);font-size:var(--text-base);font-weight:600;
+  display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);
+  color:var(--color-text);box-shadow:var(--shadow-sm);
+}
+.accordion-header:hover{background:var(--color-surface-offset)}
+.accordion-header[aria-expanded="true"]{
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  background:var(--color-primary-highlight);color:var(--color-primary);
+  border-color:var(--color-primary);
+}
+.accordion-icon{transition:transform var(--transition-interactive);flex-shrink:0}
+.accordion-header[aria-expanded="true"] .accordion-icon{transform:rotate(180deg)}
+.accordion-body{
+  display:none;padding:var(--space-6);
+  background:var(--color-surface-2);
+  border:1px solid var(--color-border);border-top:none;
+  border-radius:0 0 var(--radius-lg) var(--radius-lg);
+}
+.accordion-body.open{display:block}
+
+/* Pipeline flow diagram */
+.pipeline{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);margin:var(--space-4) 0}
+.pipe-node{
+  background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-md);padding:var(--space-2) var(--space-3);
+  font-size:var(--text-xs);font-weight:600;color:var(--color-text);
+  white-space:nowrap;box-shadow:var(--shadow-sm);
+}
+.pipe-node.input{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-highlight)}
+.pipe-node.transform{border-color:var(--color-accent);color:var(--color-accent);background:var(--color-accent-light)}
+.pipe-node.output{border-color:var(--color-success);color:var(--color-success);background:var(--color-success-highlight)}
+.pipe-arrow{color:var(--color-text-faint);font-size:.9rem;flex-shrink:0}
+
+/* ── ARCHITECTURE DIAGRAM ── */
+.arch-layer{
+  border:1px solid var(--color-border);border-radius:var(--radius-lg);
+  padding:var(--space-4) var(--space-5);margin-bottom:var(--space-3);
+  display:flex;align-items:flex-start;gap:var(--space-4);
+}
+.arch-layer-label{
+  min-width:100px;font-size:var(--text-xs);font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding-top:3px;color:var(--color-text-muted)
+}
+.arch-nodes{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.arch-node{
+  background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-md);padding:var(--space-2) var(--space-3);
+  font-size:var(--text-xs);font-weight:500;
+}
+
+/* ── QUESTIONS GRID ── */
+.questions-grid{display:grid;gap:var(--space-4);grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));margin-top:var(--space-6)}
+.q-card{
+  background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h/0.1);
+  border-radius:var(--radius-lg);padding:var(--space-5);
+}
+.q-domain{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-2)}
+.q-list{list-style:none;display:flex;flex-direction:column;gap:var(--space-2)}
+.q-list li{font-size:var(--text-sm);color:var(--color-text-muted);padding-left:var(--space-4);position:relative}
+.q-list li::before{content:"→";position:absolute;left:0;color:var(--color-primary)}
+
+/* ── BUS MATRIX ── */
+.bus-matrix th:first-child,.bus-matrix td:first-child{font-weight:600;color:var(--color-text)}
+
+/* ── DASHBOARD TAB ── */
+.dashboard-wrap{
+  background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-lg);
+}
+.dashboard-header{
+  background:var(--color-surface-offset);padding:var(--space-4) var(--space-6);
+  border-bottom:1px solid var(--color-border);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-3);
+}
+.dashboard-header h2{font-size:var(--text-lg);color:var(--color-text)}
+.dashboard-header p{font-size:var(--text-sm);color:var(--color-text-muted)}
+.bi-frame{width:100%;aspect-ratio:16/10;border:none;display:block}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--color-divider);
+  padding:var(--space-8) var(--space-6);
+  text-align:center;
+  color:var(--color-text-faint);
+  font-size:var(--text-xs);
+}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .content-wrap{padding:var(--space-6) var(--space-4)}
+  .hero h1{font-size:clamp(1.5rem,5vw,2.5rem)}
+  .kpi-strip{grid-template-columns:repeat(2,1fr)}
+  .header-inner{padding:var(--space-3) var(--space-4)}
+}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="header">
-        <h1>Dashboard Medired</h1>
-        <p>Visualización embebida del dashboard publicado en Power BI para consulta desde una página independiente.</p>
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiNmViMzM5OGItZTU2ZS00OWQyLWIzMDQtZWM1ODQ4YjdhMGYzIiwidCI6ImRhZjc5OTBlLThhM2YtNDA5Yy05Yjc2LTJhNTQ3NTA5ODAwMCIsImMiOjR9" target="_blank" rel="noopener noreferrer">Abrir en Power BI</a>
+
+<!-- ════════════════════════════════ HEADER ════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#" class="logo-link" aria-label="MediRed inicio">
+      <img src="https://drive.google.com/uc?export=view&id=1_W7EkYRwoAwXDpWWQFPWLdKwkRyinmtp"
+           alt="Logo MediRed" width="160" height="44" loading="eager" />
+    </a>
+    <div class="header-right">
+      <button class="theme-toggle" data-theme-toggle aria-label="Cambiar tema">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════ HERO ════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-badge">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    Proyecto Final — Inteligencia de Negocios
+  </div>
+  <h1>Bodega de Datos <span>MediRed</span></h1>
+  <p>Diseño, implementación y análisis de un Data Warehouse corporativo para soportar decisiones clínicas, operacionales y financieras en una red de salud.</p>
+  <div class="hero-meta">
+    <span class="meta-chip">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></ellipse></svg>
+      Oracle 23c · DW
+    </span>
+    <span class="meta-chip">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Apache Hop · ETL
+    </span>
+    <span class="meta-chip">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+      Power BI · Dashboard
+    </span>
+    <span class="meta-chip">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      Metodología Kimball
+    </span>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ TAB NAV ════════════════════════════════ -->
+<nav class="tab-nav-wrapper" aria-label="Secciones del proyecto">
+  <div class="tab-nav" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" data-tab="contexto">Contexto</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="modelo">Modelo Dimensional</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="ddl">DDL Oracle</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="etl">ETL · Apache Hop</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="sql">Consultas SQL</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="dashboard">Dashboard</button>
+  </div>
+</nav>
+
+<main id="main-content">
+
+<!-- ══════════════════════════ TAB: CONTEXTO ══════════════════════════ -->
+<section id="tab-contexto" class="tab-content active" role="tabpanel">
+  <div class="content-wrap">
+    <h2 class="section-title">Contexto del Proyecto</h2>
+    <p class="section-subtitle">MediRed S.A.S. operaba con tres sistemas transaccionales no integrados. El objetivo fue construir una bodega de datos corporativa que unificara esas fuentes para soportar decisiones clínicas, financieras y de gestión del talento médico.</p>
+
+    <div class="kpi-strip">
+      <div class="kpi"><div class="kpi-value">3</div><div class="kpi-label">Fuentes OLTP</div></div>
+      <div class="kpi"><div class="kpi-value">2</div><div class="kpi-label">Tablas de Hechos</div></div>
+      <div class="kpi"><div class="kpi-value">8</div><div class="kpi-label">Dimensiones</div></div>
+      <div class="kpi"><div class="kpi-value">4</div><div class="kpi-label">Dominios Analíticos</div></div>
+      <div class="kpi"><div class="kpi-value">5</div><div class="kpi-label">Pipelines ETL</div></div>
+    </div>
+
+    <div class="card-grid" style="margin-bottom:var(--space-8)">
+      <div class="card">
+        <div class="tag tag-blue">SIS-CITAS</div>
+        <h3>Sistema de Citas</h3>
+        <p>Sistema Oracle para agendamiento y atención. Contiene pacientes, sedes, especialidades, médicos, agendas y citas. Base del análisis operacional de atención.</p>
       </div>
-      <div class="frame-wrap">
-        <iframe
-          title="Dashboard_mediredV1"
-          src="https://app.powerbi.com/view?r=eyJrIjoiNmViMzM5OGItZTU2ZS00OWQyLWIzMDQtZWM1ODQ4YjdhMGYzIiwidCI6ImRhZjc5OTBlLThhM2YtNDA5Yy05Yjc2LTJhNTQ3NTA5ODAwMCIsImMiOjR9"
-          allowfullscreen="true">
-        </iframe>
+      <div class="card">
+        <div class="tag tag-orange">SIS-FACTURA</div>
+        <h3>Sistema de Facturación</h3>
+        <p>Sistema Oracle para facturación, pagos y glosas. Gestiona aseguradoras, contratos tarifarios, facturas y recaudo. Fuente del análisis financiero.</p>
       </div>
-      <div class="footer">
-        Si el dashboard no carga, verifica que el enlace siga siendo público y que Power BI permita su visualización embebida.
+      <div class="card">
+        <div class="tag tag-green">SIS-RRHH</div>
+        <h3>Sistema de RRHH</h3>
+        <p>Archivos CSV con información de médicos, contratos, sedes y especialidades. Actualización periódica desde el área de recursos humanos.</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">Dominios Analíticos y Preguntas de Negocio</h2>
+    <p class="section-subtitle" style="margin-bottom:var(--space-4)">El modelo responde cuatro dominios estratégicos de gestión para MediRed.</p>
+    <div class="questions-grid">
+      <div class="q-card">
+        <div class="q-domain tag tag-blue">Operacional Clínico</div>
+        <ul class="q-list">
+          <li>¿Cuál es la tasa de ocupación por sede y especialidad?</li>
+          <li>¿Qué especialidades concentran mayor no-asistencia?</li>
+          <li>¿Cómo varía la demanda de citas en el tiempo?</li>
+        </ul>
+      </div>
+      <div class="q-card">
+        <div class="q-domain tag tag-orange">Financiero</div>
+        <ul class="q-list">
+          <li>¿Cuánto se factura vs. cuánto se recauda por aseguradora?</li>
+          <li>¿Qué EPS concentra mayor tasa de glosa?</li>
+          <li>¿Cuál es el promedio de días a pago por contrato?</li>
+        </ul>
+      </div>
+      <div class="q-card">
+        <div class="q-domain tag tag-green">Productividad Médica</div>
+        <ul class="q-list">
+          <li>¿Cuáles son los 10 médicos más productivos por año?</li>
+          <li>¿Qué médicos tienen mayor desviación de tiempo en consulta?</li>
+          <li>¿Cómo se distribuye la carga por especialidad y sede?</li>
+        </ul>
+      </div>
+      <div class="q-card">
+        <div class="q-domain tag tag-yellow">Calidad de Datos</div>
+        <ul class="q-list">
+          <li>¿Existen registros huérfanos en las tablas de hechos?</li>
+          <li>¿Qué volumen de registros se cargó por tabla?</li>
+          <li>¿Los nulos se tratan correctamente con miembros desconocidos?</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="section-title" style="margin-top:var(--space-10)">Arquitectura Tecnológica</h2>
+    <p class="section-subtitle">Stack end-to-end desde las fuentes OLTP hasta el consumo en Power BI.</p>
+    <div>
+      <div class="arch-layer">
+        <div class="arch-layer-label">Fuentes</div>
+        <div class="arch-nodes">
+          <span class="arch-node">Oracle — SIS-CITAS</span>
+          <span class="arch-node">Oracle — SIS-FACTURA</span>
+          <span class="arch-node">CSV — SIS-RRHH</span>
+        </div>
+      </div>
+      <div style="text-align:center;color:var(--color-text-faint);margin:-4px 0">↕</div>
+      <div class="arch-layer" style="border-color:var(--color-accent)">
+        <div class="arch-layer-label" style="color:var(--color-accent)">ETL</div>
+        <div class="arch-nodes">
+          <span class="arch-node">Apache Hop — Pipelines P_DIM_* / P_FACT_*</span>
+          <span class="arch-node">Workflow Maestro</span>
+          <span class="arch-node">Reglas de Calidad</span>
+        </div>
+      </div>
+      <div style="text-align:center;color:var(--color-text-faint);margin:-4px 0">↕</div>
+      <div class="arch-layer" style="border-color:var(--color-primary)">
+        <div class="arch-layer-label" style="color:var(--color-primary)">DW</div>
+        <div class="arch-nodes">
+          <span class="arch-node">Oracle 23c — Schema Estrella</span>
+          <span class="arch-node">FACT_CITAS</span>
+          <span class="arch-node">FACT_FACTURAS</span>
+          <span class="arch-node">8 Dimensiones</span>
+        </div>
+      </div>
+      <div style="text-align:center;color:var(--color-text-faint);margin:-4px 0">↕</div>
+      <div class="arch-layer" style="border-color:var(--color-success)">
+        <div class="arch-layer-label" style="color:var(--color-success)">BI</div>
+        <div class="arch-nodes">
+          <span class="arch-node">Power BI — Dashboard_mediredV1</span>
+          <span class="arch-node">Filtros dinámicos</span>
+          <span class="arch-node">4 Dominios Analíticos</span>
+        </div>
       </div>
     </div>
   </div>
+</section>
+
+<!-- ══════════════════════════ TAB: MODELO DIMENSIONAL ══════════════════════════ -->
+<section id="tab-modelo" class="tab-content" role="tabpanel">
+  <div class="content-wrap">
+    <h2 class="section-title">Modelo Dimensional</h2>
+    <p class="section-subtitle">Se adoptó la metodología de Kimball con un esquema estrella. Dos tablas de hechos centrales comparten un conjunto de dimensiones conformadas, permitiendo análisis cruzados entre operación y finanzas bajo la misma semántica dimensional.</p>
+
+    <div class="card-grid-2" style="margin-bottom:var(--space-8)">
+      <div class="card">
+        <div class="tag tag-blue">Tabla de Hechos</div>
+        <h3>FACT_CITAS</h3>
+        <p style="margin-bottom:var(--space-3)"><strong>Grano:</strong> Una fila por cita médica agendada.</p>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted)"><strong>Medidas:</strong> cnt_citas · indicador_atendida · indicador_no_asistio · minutos_bloque · dis_tiempo_cita</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-orange">Tabla de Hechos</div>
+        <h3>FACT_FACTURAS</h3>
+        <p style="margin-bottom:var(--space-3)"><strong>Grano:</strong> Una fila por factura emitida a aseguradora.</p>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted)"><strong>Medidas:</strong> valor_bruto · valor_copago · valor_neto · valor_glosado_total · valor_pagado_total · dias_a_pago</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-4)">Dimensiones del Modelo</h3>
+    <div class="table-wrap" style="margin-bottom:var(--space-8)">
+      <table>
+        <thead><tr><th>Dimensión</th><th>Descripción</th><th>Tipo SCD</th><th>Atributos clave</th></tr></thead>
+        <tbody>
+          <tr><td><span class="mono">DIM_TIEMPO</span></td><td>Fecha en formato YYYYMMDD con atributos de calendario</td><td>SCD 0</td><td>anio, trimestre, mes, semana, dia_semana</td></tr>
+          <tr><td><span class="mono">DIM_SEDE</span></td><td>Sedes de atención de MediRed</td><td>SCD 1</td><td>nombre_sede, ciudad, departamento, tipo_sede</td></tr>
+          <tr><td><span class="mono">DIM_ESPECIALIDAD</span></td><td>Especialidades médicas con CUPS</td><td>SCD 1</td><td>codigo, nombre, area_clinica, tiempo_estandar</td></tr>
+          <tr><td><span class="mono">DIM_MEDICO</span></td><td>Médicos con atributos personales y profesionales</td><td>SCD 2</td><td>nombre_completo, especialidad, correo, celular</td></tr>
+          <tr><td><span class="mono">DIM_CONTRATO_MEDICO</span></td><td>Contratos vigentes del médico con la IPS</td><td>SCD 2</td><td>tipo_contrato, fecha_inicio, fecha_fin, sede</td></tr>
+          <tr><td><span class="mono">DIM_PACIENTE</span></td><td>Pacientes registrados con datos demográficos</td><td>SCD 1</td><td>tipo_doc, num_doc, fecha_nacimiento, sexo</td></tr>
+          <tr><td><span class="mono">DIM_ASEGURADORA</span></td><td>Entidades pagadoras (EPS, ARL, prepagada)</td><td>SCD 1</td><td>nombre, tipo, codigo_habilitacion</td></tr>
+          <tr><td><span class="mono">DIM_AGENDAS</span></td><td>Bloques de agenda por médico, sede y fecha</td><td>SCD 0</td><td>fecha, hora_inicio, hora_fin, tipo_atencion</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-4)">Bus Matrix de Kimball</h3>
+    <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-4)">Las dimensiones conformadas DIM_TIEMPO, DIM_SEDE, DIM_ESPECIALIDAD, DIM_MEDICO y DIM_CONTRATO_MEDICO son compartidas entre los dos hechos, permitiendo comparar métricas operacionales y financieras bajo la misma semántica dimensional.</p>
+    <div class="table-wrap">
+      <table class="bus-matrix">
+        <thead>
+          <tr>
+            <th>Proceso / Hecho</th>
+            <th>TIEMPO</th><th>SEDE</th><th>ESP.</th><th>MÉDICO</th>
+            <th>CONTRATO</th><th>PACIENTE</th><th>ASEG.</th><th>Degenerada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>FACT_CITAS</td>
+            <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td>
+            <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td>
+            <td class="dash">—</td><td><span class="mono">id_cita</span></td>
+          </tr>
+          <tr>
+            <td>FACT_FACTURAS</td>
+            <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td>
+            <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td>
+            <td class="check">✓</td><td><span class="mono">num_factura</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ TAB: DDL ORACLE ══════════════════════════ -->
+<section id="tab-ddl" class="tab-content" role="tabpanel">
+  <div class="content-wrap">
+    <h2 class="section-title">DDL en Oracle 23c</h2>
+    <p class="section-subtitle">Las tablas del Data Warehouse fueron definidas físicamente en Oracle 23c siguiendo el diccionario de datos del modelo. A continuación se presenta el resumen de columnas clave de cada tabla central.</p>
+
+    <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-4)">FACT_CITAS — Columnas principales</h3>
+    <div class="table-wrap" style="margin-bottom:var(--space-8)">
+      <table>
+        <thead><tr><th>Columna</th><th>Tipo Oracle</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td><span class="mono">id_fact_cita</span></td><td>NUMBER(12)</td><td>Clave sustituta PK</td></tr>
+          <tr><td><span class="mono">id_dim_contrato_medico</span></td><td>NUMBER(12)</td><td>FK → DIM_CONTRATO_MEDICO, contrato vigente al momento de la cita</td></tr>
+          <tr><td><span class="mono">id_dim_paciente</span></td><td>NUMBER(12)</td><td>FK → DIM_PACIENTE</td></tr>
+          <tr><td><span class="mono">id_dim_sede</span></td><td>NUMBER(6)</td><td>FK → DIM_SEDE</td></tr>
+          <tr><td><span class="mono">id_dim_especialidad</span></td><td>NUMBER(6)</td><td>FK → DIM_ESPECIALIDAD</td></tr>
+          <tr><td><span class="mono">id_dim_tiempo</span></td><td>NUMBER(8)</td><td>FK → DIM_TIEMPO (formato YYYYMMDD)</td></tr>
+          <tr><td><span class="mono">tipo_consulta</span></td><td>VARCHAR2(20)</td><td>PRIMERA_VEZ / CONTROL / URGENCIA / TELECONSULTA</td></tr>
+          <tr><td><span class="mono">estado_cita</span></td><td>VARCHAR2(25)</td><td>ATENDIDA / NO_ASISTIO / CANCELADA_*</td></tr>
+          <tr><td><span class="mono">minutos_bloque</span></td><td>NUMBER(3)</td><td>Duración planeada según agenda (minutos)</td></tr>
+          <tr><td><span class="mono">cnt_citas</span></td><td>NUMBER(1)</td><td>Siempre 1 — contador de citas</td></tr>
+          <tr><td><span class="mono">indicador_atendida</span></td><td>NUMBER(1)</td><td>1 si fue atendida, 0 si no</td></tr>
+          <tr><td><span class="mono">indicador_no_asistio</span></td><td>NUMBER(1)</td><td>1 si estado = NO_ASISTIO</td></tr>
+          <tr><td><span class="mono">dis_tiempo_cita</span></td><td>NUMBER(3)</td><td>Diferencia entre tiempo estándar y real (– = demoró más)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-4)">FACT_FACTURAS — Columnas principales</h3>
+    <div class="table-wrap" style="margin-bottom:var(--space-8)">
+      <table>
+        <thead><tr><th>Columna</th><th>Tipo Oracle</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td><span class="mono">id_fact_factura</span></td><td>NUMBER(12)</td><td>Clave sustituta PK</td></tr>
+          <tr><td><span class="mono">numero_factura</span></td><td>VARCHAR2(20)</td><td>Dimensión degenerada (ej. FE-88432)</td></tr>
+          <tr><td><span class="mono">id_dim_aseguradora</span></td><td>NUMBER(6)</td><td>FK → DIM_ASEGURADORA</td></tr>
+          <tr><td><span class="mono">valor_bruto</span></td><td>NUMBER(12,2)</td><td>Valor total antes de copago</td></tr>
+          <tr><td><span class="mono">valor_copago</span></td><td>NUMBER(12,2)</td><td>Cobro directo al paciente</td></tr>
+          <tr><td><span class="mono">valor_neto</span></td><td>NUMBER(12,2)</td><td>Valor a cobrar a la aseguradora (bruto – copago)</td></tr>
+          <tr><td><span class="mono">valor_glosado_total</span></td><td>NUMBER(12,2)</td><td>Total objetado por la EPS</td></tr>
+          <tr><td><span class="mono">valor_pagado_total</span></td><td>NUMBER(12,2)</td><td>Total efectivamente recaudado</td></tr>
+          <tr><td><span class="mono">dias_a_pago</span></td><td>NUMBER(5)</td><td>Días entre fecha factura y primer pago (NULL si no pagada)</td></tr>
+          <tr><td><span class="mono">estado_factura</span></td><td>VARCHAR2(25)</td><td>EMITIDA / PAGADA / GLOSADA_PARCIAL</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-4)">DDL — DIM_MEDICO</h3>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+        <span>Oracle SQL — DIM_MEDICO</span>
+      </div>
+      <div class="code-scroll"><pre><span class="kw">CREATE TABLE</span> DIM_MEDICO (
+  id_dim_medico        <span class="fn">NUMBER</span>(12)      <span class="kw">PRIMARY KEY</span>,
+  num_documento        <span class="fn">VARCHAR2</span>(20)   <span class="kw">NOT NULL</span>,
+  tipo_documento       <span class="fn">VARCHAR2</span>(10),
+  primer_nombre        <span class="fn">VARCHAR2</span>(50),
+  segundo_nombre       <span class="fn">VARCHAR2</span>(50),
+  primer_apellido      <span class="fn">VARCHAR2</span>(50),
+  segundo_apellido     <span class="fn">VARCHAR2</span>(50),
+  nombre_completo      <span class="fn">VARCHAR2</span>(200),
+  sexo                 <span class="fn">VARCHAR2</span>(10),
+  fecha_nacimiento     <span class="fn">DATE</span>,
+  correo_corporativo   <span class="fn">VARCHAR2</span>(100)  <span class="kw">DEFAULT</span> <span class="st">'NO_REGISTRA'</span>,
+  celular              <span class="fn">VARCHAR2</span>(20)   <span class="kw">DEFAULT</span> <span class="st">'NO_REGISTRA'</span>,
+  codigo_especialidad  <span class="fn">VARCHAR2</span>(20),
+  nombre_especialidad  <span class="fn">VARCHAR2</span>(80),
+  <span class="kw">CONSTRAINT</span> uq_medico_doc <span class="kw">UNIQUE</span> (num_documento)
+);
+
+<span class="cm">-- Secuencia para clave sustituta</span>
+<span class="kw">CREATE SEQUENCE</span> seq_dim_medico
+  <span class="kw">START WITH</span> 1
+  <span class="kw">INCREMENT BY</span> 1
+  <span class="kw">NOCACHE NOCYCLE</span>;</pre></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ TAB: ETL ══════════════════════════ -->
+<section id="tab-etl" class="tab-content" role="tabpanel">
+  <div class="content-wrap">
+    <h2 class="section-title">ETL en Apache Hop</h2>
+    <p class="section-subtitle">Todos los pipelines fueron construidos en Apache Hop. Cada dimensión y tabla de hechos tiene su propio pipeline (P_DIM_* / P_FACT_*), coordinados desde un workflow maestro que controla el orden de ejecución y la dependencia entre cargas.</p>
+
+    <!-- P_DIM_MEDICO -->
+    <div class="accordion">
+      <button class="accordion-header" aria-expanded="false" data-accordion>
+        <span>P_DIM_MEDICO — Dimensión de Médicos</span>
+        <svg class="accordion-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="accordion-body">
+        <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-bottom:var(--space-4)">El pipeline integra el maestro de médicos, datos de auditoría de citas y la tabla de especialidades para enriquecer la dimensión con atributos cruzados.</p>
+        <div class="pipeline">
+          <span class="pipe-node input">medicos (CSV)</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">String operations</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">Replace in string ×3</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">If Null</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">GEN_NOMBRE_COMPLETO</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">Stream lookup (audit)</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">Add sequence</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">Stream lookup 2 (especialidades)</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">Select values ×4</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node output">OUT_DIM_MEDICO</span>
+        </div>
+        <ul style="font-size:var(--text-sm);color:var(--color-text-muted);display:flex;flex-direction:column;gap:var(--space-2);padding-left:var(--space-4)">
+          <li><strong>String operations + Replace in string:</strong> Normaliza mayúsculas, recorta espacios en nombres, apellidos, tipo de documento y sexo.</li>
+          <li><strong>If Null:</strong> Reemplaza contactos faltantes con <span class="mono">NO_REGISTRA</span> en correo y celular.</li>
+          <li><strong>GEN_NOMBRE_COMPLETO:</strong> User defined Java expression que concatena nombre completo sin dobles espacios, controlando ausencia de segundo nombre o apellido.</li>
+          <li><strong>Stream lookup (audit_sis_citas_medicos):</strong> Enriquece con indicadores de uso del médico en el sistema de citas.</li>
+          <li><strong>Add sequence:</strong> Genera clave sustituta <span class="mono">id_dim_medico</span>.</li>
+          <li><strong>Stream lookup 2 (especialidades):</strong> Vincula atributos de especialidad a cada médico.</li>
+          <li><strong>User defined Java expression 2 + Select values ×4:</strong> Calcula campos derivados, ajusta tipos y proyecta el DDL final.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- P_DIM_ESPECIALIDAD -->
+    <div class="accordion">
+      <button class="accordion-header" aria-expanded="false" data-accordion>
+        <span>P_DIM_ESPECIALIDAD — Dimensión de Especialidades</span>
+        <svg class="accordion-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="accordion-body">
+        <div class="pipeline">
+          <span class="pipe-node input">especialidades (CSV)</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">String operations</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">If Null (NO CLASIFICADA)</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">Select values</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node output">DIM_ESPECIALIDAD</span>
+        </div>
+        <ul style="font-size:var(--text-sm);color:var(--color-text-muted);display:flex;flex-direction:column;gap:var(--space-2);padding-left:var(--space-4)">
+          <li><strong>String operations:</strong> Recorta espacios, estandariza en mayúsculas códigos, nombres y áreas clínicas.</li>
+          <li><strong>If Null:</strong> Áreas no informadas reciben valor <span class="mono">NO CLASIFICADA</span> como regla de negocio.</li>
+          <li><strong>Select values:</strong> Proyecta columnas id, código, nombre, área, requisito de tarjeta, tiempo estándar y CUPS, ajustando tipos al DDL Oracle.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- P_DIM_AGENDAS -->
+    <div class="accordion">
+      <button class="accordion-header" aria-expanded="false" data-accordion>
+        <span>P_DIM_AGENDAS — Dimensión de Agendas</span>
+        <svg class="accordion-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="accordion-body">
+        <div class="pipeline">
+          <span class="pipe-node input">CSV file input (agendas)</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">String operations</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">Select values</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node output">DIM_AGENDAS</span>
+        </div>
+        <ul style="font-size:var(--text-sm);color:var(--color-text-muted);display:flex;flex-direction:column;gap:var(--space-2);padding-left:var(--space-4)">
+          <li>Limpia y normaliza campos de texto con String operations.</li>
+          <li>Select values selecciona columnas, ajusta nombres a la nomenclatura del modelo y define tipos (fechas en date/time, IDs numéricos).</li>
+          <li>Deja la agenda consolidada y lista para análisis de capacidad y uso.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- P_FACT_CITAS -->
+    <div class="accordion">
+      <button class="accordion-header" aria-expanded="false" data-accordion>
+        <span>P_FACT_CITAS — Tabla de Hechos de Citas</span>
+        <svg class="accordion-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="accordion-body">
+        <div class="pipeline">
+          <span class="pipe-node input">Table input (OLAP)</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">LKP_DIM_PACIENTE</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">LKP_DIM_AGENDAS</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">LKP_DIM_MEDICOS</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">LKP_DIM_SEDE</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">LKP_DIM_CONTRATOS</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">LKP_DIM_ESPECIALIDAD</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">SEQ_ID_FACT_CITA</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">Java Expr + Calculator</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">Select values</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node output">OUTPUT_FACT_CITAS</span>
+        </div>
+        <ul style="font-size:var(--text-sm);color:var(--color-text-muted);display:flex;flex-direction:column;gap:var(--space-2);padding-left:var(--space-4)">
+          <li>Encadena lookups contra todas las dimensiones, transformando claves naturales en sustitutas del DW.</li>
+          <li>SEQ_ID_FACT_CITA genera la PK de la tabla de hechos.</li>
+          <li>User defined Java expression y Calculator derivan medidas: indicadores binarios, duraciones y desvíos de tiempo.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- P_FACT_FACTURAS -->
+    <div class="accordion">
+      <button class="accordion-header" aria-expanded="false" data-accordion>
+        <span>P_FACT_FACTURAS — Tabla de Hechos de Facturas</span>
+        <svg class="accordion-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="accordion-body">
+        <div class="pipeline">
+          <span class="pipe-node input">Table input (facturas)</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">Group by (métricas)</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">LKP_FACT_CITAS</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">LKP_DIM_ASEGURADORA</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">Integrar glosas y pagos</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">LKP dimensiones conformadas</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node transform">Secuencia PK</span><span class="pipe-arrow">→</span>
+          <span class="pipe-node output">OUTPUT_FACT_FACTURAS</span>
+        </div>
+        <ul style="font-size:var(--text-sm);color:var(--color-text-muted);display:flex;flex-direction:column;gap:var(--space-2);padding-left:var(--space-4)">
+          <li>Group by calcula métricas agregadas por factura: valor bruto, neto.</li>
+          <li>Integra glosas y pagos derivando <span class="mono">valor_glosado_total</span>, <span class="mono">valor_pagado_total</span> y <span class="mono">dias_a_pago</span>.</li>
+          <li>Lookups de dimensiones conformadas completan el set de FKs hacia el esquema estrella.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:var(--space-6)">
+      <h3>Calidad de Datos — Reglas Aplicadas</h3>
+      <ul style="font-size:var(--text-sm);color:var(--color-text-muted);display:grid;gap:var(--space-2);padding-left:var(--space-5);list-style:disc;margin-top:var(--space-3)">
+        <li>Campos de contacto vacíos → <span class="mono">NO_REGISTRA</span>.</li>
+        <li>Áreas clínicas no informadas → <span class="mono">NO CLASIFICADA</span>.</li>
+        <li>Valores de lookup sin correspondencia → miembro desconocido con <span class="mono">id = -1</span>.</li>
+        <li>Unicidad garantizada sobre <span class="mono">num_documento</span> en dimensiones de médicos y pacientes.</li>
+        <li>Fechas en formato <span class="mono">yyyyMMdd</span> del CSV convertidas al tipo DATE de Oracle.</li>
+        <li>Claves naturales de texto normalizadas a mayúsculas antes de cualquier join.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ TAB: SQL ══════════════════════════ -->
+<section id="tab-sql" class="tab-content" role="tabpanel">
+  <div class="content-wrap">
+    <h2 class="section-title">Consultas SQL Analíticas</h2>
+    <p class="section-subtitle">Las consultas se diseñaron en Oracle 23c para responder las preguntas de negocio definidas en los cuatro dominios. Se utilizan funciones de ventana, CTEs y agrupaciones jerárquicas para generar indicadores de gestión.</p>
+
+    <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-3)">1. Tasa de Ocupación por Sede y Especialidad</h3>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+        <span>Oracle SQL — Dominio Operacional Clínico</span>
+      </div>
+      <div class="code-scroll"><pre><span class="kw">SELECT</span>
+  t.anio,
+  t.nombre_mes,
+  s.nombre_sede,
+  e.nombre_especialidad,
+  <span class="fn">SUM</span>(fc.cnt_citas)               <span class="kw">AS</span> total_citas,
+  <span class="fn">SUM</span>(fc.indicador_atendida)       <span class="kw">AS</span> citas_atendidas,
+  <span class="fn">SUM</span>(fc.indicador_no_asistio)     <span class="kw">AS</span> no_asistencias,
+  <span class="fn">ROUND</span>(
+    <span class="fn">SUM</span>(fc.indicador_atendida) * 100.0
+    / <span class="fn">NULLIF</span>(<span class="fn">SUM</span>(fc.cnt_citas), 0), 2
+  )                                <span class="kw">AS</span> tasa_ocupacion_pct
+<span class="kw">FROM</span>  FACT_CITAS fc
+<span class="kw">JOIN</span>  DIM_TIEMPO      t  <span class="kw">ON</span> t.id_dim_tiempo      = fc.id_dim_tiempo
+<span class="kw">JOIN</span>  DIM_SEDE        s  <span class="kw">ON</span> s.id_dim_sede        = fc.id_dim_sede
+<span class="kw">JOIN</span>  DIM_ESPECIALIDAD e  <span class="kw">ON</span> e.id_dim_especialidad = fc.id_dim_especialidad
+<span class="kw">GROUP BY</span> t.anio, t.nombre_mes, s.nombre_sede, e.nombre_especialidad
+<span class="kw">ORDER BY</span> t.anio, t.nombre_mes;</pre></div>
+    </div>
+
+    <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-3)">2. Facturado vs. Recaudado por Aseguradora</h3>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+        <span>Oracle SQL — Dominio Financiero</span>
+      </div>
+      <div class="code-scroll"><pre><span class="kw">SELECT</span>
+  a.nombre_aseguradora,
+  t.anio,
+  t.trimestre,
+  <span class="fn">SUM</span>(ff.valor_bruto)           <span class="kw">AS</span> total_facturado,
+  <span class="fn">SUM</span>(ff.valor_pagado_total)     <span class="kw">AS</span> total_recaudado,
+  <span class="fn">SUM</span>(ff.valor_glosado_total)    <span class="kw">AS</span> total_glosado,
+  <span class="fn">ROUND</span>(
+    <span class="fn">SUM</span>(ff.valor_glosado_total) * 100.0
+    / <span class="fn">NULLIF</span>(<span class="fn">SUM</span>(ff.valor_bruto), 0), 2
+  )                              <span class="kw">AS</span> tasa_glosa_pct,
+  <span class="fn">AVG</span>(ff.dias_a_pago)           <span class="kw">AS</span> promedio_dias_pago
+<span class="kw">FROM</span>  FACT_FACTURAS ff
+<span class="kw">JOIN</span>  DIM_ASEGURADORA a  <span class="kw">ON</span> a.id_dim_aseguradora = ff.id_dim_aseguradora
+<span class="kw">JOIN</span>  DIM_TIEMPO      t  <span class="kw">ON</span> t.id_dim_tiempo      = ff.id_dim_tiempo
+<span class="kw">WHERE</span> ff.estado_factura != <span class="st">'EMITIDA'</span>
+<span class="kw">GROUP BY</span> a.nombre_aseguradora, t.anio, t.trimestre
+<span class="kw">ORDER BY</span> total_glosado <span class="kw">DESC</span>;</pre></div>
+    </div>
+
+    <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-3)">3. Ranking de Productividad Médica (RANK)</h3>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+        <span>Oracle SQL — Dominio Productividad Médica · Función de Ventana RANK()</span>
+      </div>
+      <div class="code-scroll"><pre><span class="kw">WITH</span> productividad <span class="kw">AS</span> (
+  <span class="kw">SELECT</span>
+    m.nombre_completo,
+    e.nombre_especialidad,
+    s.nombre_sede,
+    t.anio,
+    <span class="fn">SUM</span>(fc.cnt_citas)            <span class="kw">AS</span> total_citas,
+    <span class="fn">SUM</span>(fc.indicador_atendida)   <span class="kw">AS</span> atendidas,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(fc.dis_tiempo_cita),1) <span class="kw">AS</span> desvio_tiempo_prom,
+    <span class="fn">RANK</span>() <span class="kw">OVER</span> (
+      <span class="kw">PARTITION BY</span> t.anio
+      <span class="kw">ORDER BY</span> <span class="fn">SUM</span>(fc.indicador_atendida) <span class="kw">DESC</span>
+    )                            <span class="kw">AS</span> ranking_anual
+  <span class="kw">FROM</span>  FACT_CITAS fc
+  <span class="kw">JOIN</span>  DIM_CONTRATO_MEDICO cm <span class="kw">ON</span> cm.id_dim_contrato_medico = fc.id_dim_contrato_medico
+  <span class="kw">JOIN</span>  DIM_MEDICO        m   <span class="kw">ON</span> m.id_dim_medico          = cm.id_dim_medico
+  <span class="kw">JOIN</span>  DIM_ESPECIALIDAD  e   <span class="kw">ON</span> e.id_dim_especialidad    = fc.id_dim_especialidad
+  <span class="kw">JOIN</span>  DIM_SEDE          s   <span class="kw">ON</span> s.id_dim_sede           = fc.id_dim_sede
+  <span class="kw">JOIN</span>  DIM_TIEMPO        t   <span class="kw">ON</span> t.id_dim_tiempo         = fc.id_dim_tiempo
+  <span class="kw">GROUP BY</span> m.nombre_completo, e.nombre_especialidad, s.nombre_sede, t.anio
+)
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> productividad
+<span class="kw">WHERE</span>  ranking_anual &lt;= 10
+<span class="kw">ORDER BY</span> anio, ranking_anual;</pre></div>
+    </div>
+
+    <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-3)">4. Validación Post-Carga — Calidad de Datos</h3>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+        <span>Oracle SQL — Dominio Calidad de Datos</span>
+      </div>
+      <div class="code-scroll"><pre><span class="cm">-- Verificar registros huérfanos en FACT_CITAS sin dimensión de sede</span>
+<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">AS</span> huerfanos_sede
+<span class="kw">FROM</span>  FACT_CITAS fc
+<span class="kw">WHERE NOT EXISTS</span> (
+  <span class="kw">SELECT</span> 1 <span class="kw">FROM</span> DIM_SEDE s
+  <span class="kw">WHERE</span> s.id_dim_sede = fc.id_dim_sede
+);
+
+<span class="cm">-- Volumen por tabla — validación de carga completa</span>
+<span class="kw">SELECT</span> <span class="st">'FACT_CITAS'</span>           <span class="kw">AS</span> tabla, <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> FACT_CITAS
+<span class="kw">UNION ALL</span>
+<span class="kw">SELECT</span> <span class="st">'FACT_FACTURAS'</span>        <span class="kw">AS</span> tabla, <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> FACT_FACTURAS
+<span class="kw">UNION ALL</span>
+<span class="kw">SELECT</span> <span class="st">'DIM_MEDICO'</span>           <span class="kw">AS</span> tabla, <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> DIM_MEDICO
+<span class="kw">UNION ALL</span>
+<span class="kw">SELECT</span> <span class="st">'DIM_SEDE'</span>             <span class="kw">AS</span> tabla, <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> DIM_SEDE
+<span class="kw">UNION ALL</span>
+<span class="kw">SELECT</span> <span class="st">'DIM_ESPECIALIDAD'</span>     <span class="kw">AS</span> tabla, <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> DIM_ESPECIALIDAD
+<span class="kw">UNION ALL</span>
+<span class="kw">SELECT</span> <span class="st">'DIM_CONTRATO_MEDICO'</span>  <span class="kw">AS</span> tabla, <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> DIM_CONTRATO_MEDICO
+<span class="kw">ORDER BY</span> 1;</pre></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ TAB: DASHBOARD ══════════════════════════ -->
+<section id="tab-dashboard" class="tab-content" role="tabpanel">
+  <div class="content-wrap">
+    <h2 class="section-title">Dashboard Interactivo</h2>
+    <p class="section-subtitle">El dashboard <strong>Dashboard_mediredV1</strong> fue construido en Power BI conectado directamente al Data Warehouse en Oracle 23c. Consolida los cuatro dominios analíticos en visualizaciones interactivas con filtros dinámicos por período, sede, especialidad y aseguradora.</p>
+    <div class="dashboard-wrap">
+      <div class="dashboard-header">
+        <div>
+          <h2>Dashboard_mediredV1</h2>
+          <p>Bodega de Datos MediRed S.A.S. — Análisis integral de operaciones clínicas y financieras</p>
+        </div>
+        <div class="tag tag-blue">Power BI · Oracle 23c</div>
+      </div>
+      <iframe
+        title="Dashboard_mediredV1"
+        class="bi-frame"
+        src="https://app.powerbi.com/view?r=eyJrIjoiNmViMzM5OGItZTU2ZS00OWQyLWIzMDQtZWM1ODQ4YjdhMGYzIiwidCI6ImRhZjc5OTBlLThhM2YtNDA5Yy05Yjc2LTJhNTQ3NTA5ODAwMCIsImMiOjR9"
+        frameborder="0"
+        allowfullscreen="true">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>MediRed S.A.S. · Proyecto Final — Maestría en Analítica de Datos para la Inteligencia de Negocios · 2026</p>
+</footer>
+
+<script>
+(function(){
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  r.setAttribute('data-theme',d);
+  if(t)t.addEventListener('click',()=>{
+    d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);
+    t.setAttribute('aria-label','Cambiar a modo '+(d==='dark'?'claro':'oscuro'));
+    t.innerHTML=d==='dark'
+      ?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      :'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  });
+
+  // Tabs
+  const btns=document.querySelectorAll('[data-tab]');
+  const panels=document.querySelectorAll('.tab-content');
+  btns.forEach(btn=>btn.addEventListener('click',()=>{
+    btns.forEach(b=>{b.classList.remove('active');b.setAttribute('aria-selected','false')});
+    panels.forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');btn.setAttribute('aria-selected','true');
+    const panel=document.getElementById('tab-'+btn.dataset.tab);
+    if(panel){panel.classList.add('active');panel.scrollIntoView({behavior:'smooth',block:'nearest'})}
+  }));
+
+  // Accordions
+  document.querySelectorAll('[data-accordion]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const body=btn.nextElementSibling;
+      const isOpen=btn.getAttribute('aria-expanded')==='true';
+      btn.setAttribute('aria-expanded',String(!isOpen));
+      body.classList.toggle('open',!isOpen);
+    });
+  });
+})();
+</script>
 </body>
 </html>
